@@ -8,15 +8,72 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var zTabBarController: UITabBarController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        window = UIWindow.init(frame: UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.white
+        window?.makeKeyAndVisible()
+        
+        
+        self.setFirstConfig()
+        
+        self.setAppearance()
+        
+        let zTabBarConfigure: ZTabBarConfigure = ZTabBarConfigure()
+        self.zTabBarController = zTabBarConfigure.configureZTabBarController()
+        
+        if UserDefaults.standard.bool(forKey: "ShowGuide"){
+            let welVc:WelcomeController = WelcomeController()
+            window?.rootViewController = welVc
+        }
+        else{
+            window?.rootViewController = self.zTabBarController
+        }
+        
+        
+        EmptyPage.begin()
+        
+        
         return true
+    }
+    
+    func setFirstConfig() {
+        
+        //引导图
+        if (UserDefaults.standard.value(forKey: "ShowGuide") == nil) {
+            UserDefaults.standard.set(true, forKey: "ShowGuide")
+        }
+        
+        //新手
+        if (UserDefaults.standard.value(forKey: "ShowInstruction") == nil) {
+            UserDefaults.standard.set(true, forKey: "ShowInstruction")
+        }
+        
+    }
+    
+    func setAppearance() {
+        
+
+        self.dk_manager.themeVersion = DKThemeVersionNormal
+        
+
+        //UINavigationBar appearance
+        UINavigationBar.appearance().barTintColor = UIColor.white
+
+        let dict:NSDictionary = [NSAttributedStringKey.foregroundColor: ColorBlue,NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 20)]
+        //标题颜色
+        UINavigationBar.appearance().titleTextAttributes = dict as? [NSAttributedStringKey : AnyObject]
+        
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

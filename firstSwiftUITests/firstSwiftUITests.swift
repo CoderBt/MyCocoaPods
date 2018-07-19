@@ -28,9 +28,16 @@ class firstSwiftUITests: XCTestCase {
         super.tearDown()
     }
     
+    
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        
+        let app = XCUIApplication()
+        app.tabBars.buttons["Mine"].tap()
+        app.collectionViews.cells.children(matching: .other).element.swipeLeft()
+        
     }
     
 }
